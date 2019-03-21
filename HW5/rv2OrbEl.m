@@ -2,9 +2,9 @@ function [a, e, theta, OMEGA, omega, inc, h] = rv2OrbEl(r,v,mu)
 % Written by Garrett Ailts
 % Usage: [a, e, theta, OMEGA, omega, inc, h] = rv2el(r,v)
 % Description: Computes the set of Keplerian orbital elements for the orbit
-% described by the a position and velocity vector in the inertial frame
-% Inputs: r - position vector in inertial frame (km)
-%         v - velocity vector in inertial frame (km/s)
+% described by the a position and velocity vector in the ECI frame
+% Inputs: r - position vector ECI frame (km)
+%         v - velocity vector ECI frame (km/s)
 %
 % Outputs: a - semi major axis (km)
 %          e - eccentricity
