@@ -23,5 +23,46 @@ cases(3).dT = 1800.000000;
 
 %% Solve Lamberts for Each Case
 for i = 1:length(cases)
-    for i = 1:length(dir)
-    [v1, v2, dTheta] = solveLambert(cases(i).r1,cases(i).r2,cases(i).dT,mu,dir(i));
+    for j = 1:length(dir)
+    [v1, v2, dTheta] = solveLambert(cases(i).r1,cases(i).r2,cases(i).dT,mu,dir(j));
+    cases(i).dir(j).v1 = v1; % dir(1) is prograde, dir(2) is retrograde
+    cases(i).dir(j).v2 = v2;
+    cases(i).dir(j).dTheta =dTheta;
+    end
+end
+
+%% Obtain COE and Initial and Final True Anomaly for Each Case
+for i = 1:length(cases)
+    for j = 1:length(dir)
+    [a, e, theta, OMEGA, omega, inc, h] = rv2OrbEl(cases(i).r1,cases(i).dir(j).v1,mu);
+    cases(i).dir(j).a = a;
+    cases(i).dir(j).e =e ;
+    cases(i).dir(j).theta = theta;
+    cases(i).dir(j).OMEGA = OMEGA;
+    cases(i).dir(j).omega = omega;
+    cases(i).dir(j).inc = inc;
+    cases(i).dir(j).h = h;
+    cases(i).dir(j).thetaf = theta+cases(i).dir(j).dTheta;
+    end
+end
+
+%% Plot Lambert Solutions
+thetaVec = linspace(0,2*pi,100);
+for i = 1:length(cases)
+    figure(i), hold on
+    for j = 1:length(dir)
+        plotOrbTraj(cases(i).dir(j), thetaVec, mu);
+    end
+    xlabel('I (km)'), ylabel('J (km)'), zlabel('K (km)');
+    titel(sprintf("Lambert's Solutions For Case %u",i));
+    legend('Prograde', 'Retrograde'), hold off
+end
+    
+
+
+
+
+
+
+
+

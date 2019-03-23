@@ -1,7 +1,7 @@
 function [r, v, h] = orbEl2rv(a, e, theta, OMEGA, omega, inc, mu)
 % Written by Garrett Ailts
 %
-% Usage: [r, v, h] = orbEl2rv(a, e, theta, OMEGA, omega, inc)
+% Usage: [r, v, h] = orbEl2rv(a, e, theta, OMEGA, omega, inc, mu)
 %
 % Description: Function takes a set of six keplerian orbital elements
 % and computes the position and velocity vectors in the inertial frame. The
