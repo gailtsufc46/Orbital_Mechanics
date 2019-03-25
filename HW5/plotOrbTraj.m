@@ -18,11 +18,12 @@ function plotOrbTraj(COE,thetaVec,mu)
 % Outputs: 3D figure showing the orbital trajectory (km)
 
 %% Preallocation
-r = zeros(length(thetaVec),3);
+r = zeros(3,length(thetaVec));
+
 %% Convert COE and True Anomaly Vector Into Inertial Coordinates
 for i = 1:length(thetaVec)
-    [r(i,:), ~, ~] = orbEl2rv(COE.a, COE.e, thetaVec(i), COE.OMEGA, COE.omega, COE.inc, mu);
+    [r(:,i), ~, ~] = orbEl2rv(COE.a, COE.e, thetaVec(i), COE.OMEGA, COE.omega, COE.inc, mu);
 end
 
 %% Plot Orbital Trajectory
-plot3(r(:,1),r(:,2),r(:,3))
+plot3(r(1,:),r(2,:),r(3,:))

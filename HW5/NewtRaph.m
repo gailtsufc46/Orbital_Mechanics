@@ -18,7 +18,7 @@ for i=1:M
     n=i;
     if abs(f(x))<tolerance
         success = 1;
-        break;
+        break;    
     end
     x=x-(f(x)/df(x));
 end
