@@ -34,7 +34,7 @@ e = norm(evec);
 a = (h^2/mu)*(1/(1-e^2));
 
 %% Calculate True Anomaly
-theta = acos(dot(N,evec)/norm(N)/e);
+theta = acos(dot(N,r)/norm(N)/rmag);
 if vr<0
    theta = 2*pi-theta;
 end
