@@ -1,6 +1,8 @@
 function [v1, v2, dTheta] = solveLambert(r1,r2,tof,mu,dir)
 % Written by Garrett Ailts
 %
+% Usage: [v1, v2, dTheta] = solveLambert(r1,r2,tof,mu,dir)
+%
 % Description: Function that solves Lambert's Problem given two points in 
 % space and a time of flight. Returns the orbital elements for a Keplerian 
 % orbit that crosses r1 and r2 in the given time of flight tof. The
@@ -11,8 +13,8 @@ function [v1, v2, dTheta] = solveLambert(r1,r2,tof,mu,dir)
 %         r2 - position vector specifying the second point in space (km)
 %        tof - time of flight between r1 and r2 (s)
 %         mu - gravitational parameter of central body (km^3/s^2)
-%        dir - string specifying the direction of the orbit ("prograde" or
-%        "retrograde")
+%        dir - string specifying the direction of the orbit ('prograde' or
+%        'retrograde')
 %
 % Output: a - semi major axis (km)
 %         e - eccentricity
