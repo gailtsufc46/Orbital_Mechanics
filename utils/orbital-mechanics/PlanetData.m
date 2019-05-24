@@ -1,73 +1,73 @@
   function [r, v, jd, coe, coe2] = PlanetData ...
     (planet_id, year, month, day, hour, minute, second, mu)
-%{
-  -- This code was adapted from planet_elements_and_sv.m --
-
-  This function calculates the orbital elements and the state  
-  vector of a planet from the date (year, month, day)
-  and universal time (hour, minute, second).
-    
-	INPUTS:
-  ==============================
-              
-  planet_id - planet identifier:
-               1 = Mercury
-               2 = Venus
-               3 = Earth
-               4 = Mars
-               5 = Jupiter
-               7 = Uranus
-               8 = Neptune
-               9 = Pluto
-  year      - range: 1901 - 2050
-  month     - range: 1 - 12
-  day       - range: 1 - 31
-  hour      - range: 0 - 23
-  minute    - range: 0 - 60
-  second    - range: 0 - 60
-  mu        - gravitational parameter of the sun (km^3/s^2)
-                         
-  OUTPUTS
-  ===============================
-  r         - heliocentric position vector
-  v         - heliocentric velocity vector
-  coe       - vector of MAIN heliocentric orbital elements
-              [a  incl  RA  w  e  TA  ] 
-              where
-               a     = semimajor axis                      (km)
-               incl  = inclination                         (rad)
-               RA    = right ascension                     (rad)
-               w     = argument of perihelion              (rad)
-               e     = eccentricity
-               TA    = true anomaly                        (rad)
-  coe2      - vector of ADDITIONAL heliocentric orbital elements
-               h     = angular momentum                    (km^2/s)
-               w_hat = longitude of perihelion ( = RA + w) (rad)
-               L     = mean longitude ( = w_hat + M)       (rad)
-               M     = mean anomaly                        (rad)
-               E     = eccentric anomaly                   (rad)
-   
+%
+%   -- This code was adapted from planet_elements_and_sv.m --
+% 
+%   This function calculates the orbital elements and the state  
+%   vector of a planet from the date (year, month, day)
+%   and universal time (hour, minute, second).
+%     
+% 	INPUTS:
+%   ==============================
+%               
+%   planet_id - planet identifier:
+%                1 = Mercury
+%                2 = Venus
+%                3 = Earth
+%                4 = Mars
+%                5 = Jupiter
+%                7 = Uranus
+%                8 = Neptune
+%                9 = Pluto
+%   year      - range: 1901 - 2050
+%   month     - range: 1 - 12
+%   day       - range: 1 - 31
+%   hour      - range: 0 - 23
+%   minute    - range: 0 - 60
+%   second    - range: 0 - 60
+%   mu        - gravitational parameter of the sun (km^3/s^2)
+%                          
+%   OUTPUTS
+%   ===============================
+%   r         - heliocentric position vector
+%   v         - heliocentric velocity vector
+%   coe       - vector of MAIN heliocentric orbital elements
+%               [a  incl  RA  w  e  TA  ] 
+%               where
+%                a     = semimajor axis                      (km)
+%                incl  = inclination                         (rad)
+%                RA    = right ascension                     (rad)
+%                w     = argument of perihelion              (rad)
+%                e     = eccentricity
+%                TA    = true anomaly                        (rad)
+%   coe2      - vector of ADDITIONAL heliocentric orbital elements
+%                h     = angular momentum                    (km^2/s)
+%                w_hat = longitude of perihelion ( = RA + w) (rad)
+%                L     = mean longitude ( = w_hat + M)       (rad)
+%                M     = mean anomaly                        (rad)
+%                E     = eccentric anomaly                   (rad)
+%    
+%                 
+%   Included subfunctions: J0, kepler_E, sv_from_coe, planetary_elements
                 
-  Included subfunctions: J0, kepler_E, sv_from_coe, planetary_elements
-                
-%}
+%
 % --------------------------------------------------------------------
 
-%{         
-  INTERNAL VARIABLES
-
-  deg       - conversion factor between degrees and radians
-  pi        - 3.1415926...
-
-  j0        - Julian day number of the date at 0 hr UT
-  ut        - universal time in fractions of a day
-  jd        - julian day number of the date and time
- 
-  J2000_coe - row vector of J2000 orbital elements from Table 9.1
-  rates     - row vector of Julian centennial rates from Table 9.1
-  t0        - Julian centuries between J2000 and jd
-  elements  - orbital elements at jd
-%}
+%        
+%   INTERNAL VARIABLES
+% 
+%   deg       - conversion factor between degrees and radians
+%   pi        - 3.1415926...
+% 
+%   j0        - Julian day number of the date at 0 hr UT
+%   ut        - universal time in fractions of a day
+%   jd        - julian day number of the date and time
+%  
+%   J2000_coe - row vector of J2000 orbital elements from Table 9.1
+%   rates     - row vector of Julian centennial rates from Table 9.1
+%   t0        - Julian centuries between J2000 and jd
+%   elements  - orbital elements at jd
+%
 
 % Default value for mu of sun
 if( nargin<8 )

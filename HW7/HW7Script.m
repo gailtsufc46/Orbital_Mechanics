@@ -68,6 +68,93 @@ fprintf('The total delta_v for switching to the specified elliptical orbit is %.
 
 
 %% 6.44
+% Define orbit paramteres
+r_parking = Re+300; r_final = Re+600; v_parking = sqrt(mu_e/r_parking);
+delta2 = 20*pi/180; 
+
+% a)
+% Find vt1, vt2, and v_final
+ht = he(r_parking,r_final,mu_e);
+vt1 = ht/r_parking;
+vt2 = ht/r_final;
+v_final = sqrt(mu_e/r_final);
+
+% Find delta_v for pure rotation plane change
+delta_v4 = 2*v_final*sin(delta2/2);
+
+% Calculate total delta_v
+delta_vtot = abs(vt1-v_parking)+abs(v_final-vt2)+delta_v4;
+fprintf('The total delta_v for the manuever is %.4f km/s\n',delta_vtot);
+
+% b)
+% Calculate delta_v for a combined inertion and plane change
+delta_v5 = sqrt((v_final-vt2)^2+4*vt2*v_final*sin(delta2/2)^2);
+
+% Calculate total delta_v
+delta_vtot2 = abs(vt1-v_parking)+delta_v5;
+fprintf('The total delta_v for the manuever is %.4f km/s\n',delta_vtot2);
+
+% c)
+% Calculate delta_v for combining a plane change with the lower orbit
+% departure
+delta_v6 = sqrt((vt1-v_parking)^2+4*vt1*v_parking*sin(delta2/2)^2);
+
+% Calculate total delta_v
+delta_vtot3 = delta_v6+abs(v_final-vt2);
+fprintf('The total delta_v for the manuever is %.4f km/s\n',delta_vtot3);
+%% 5
+% Orbit 1
+r1circ = 8000;
+v1circ = sqrt(mu_e/r1circ);
+
+% Orbit 2
+r2circ=12000; inc2 = 30*pi/180;
+v2circ = sqrt(mu_e/r2circ);
+
+
+% Comput the transfer orbit velocities
+ht2 = he(r1circ,r2circ,mu_e);
+vt21 = ht2/r1circ;
+vt22 = ht2/r2circ;
+
+% a)
+% The manuever that would yield the minmum delta_v is a departure from
+% orbit 1 one followed by a combination of a plane change and insertion 
+% into orbit 2. This is due to the fact that the delta_v for the insertion
+% is slightly smaller than the delta_v for departure, thus the delta_v 
+% required to rotate the velocity vector and insert will be smaller.
+
+% b)
+% Compute delta_v for rotation and insertion into orbit 2
+delta_v7 = sqrt((v2circ-vt22)^2+4*vt22*v2circ*sin(inc2/2)^2);
+
+% Compute total delta_v for manuever
+delta_vtot4 = abs(vt21-v1circ)+delta_v7;
+fprintf('The total delta_v for the manuever is %.4f km/s\n',delta_vtot4);
+
+%% 6
+% a)
+Lat = 44.9778; % Lattitude of Minneapolis
+inc3 = 60;
+Azimuth = asin(cosd(inc3)/cosd(Lat))*180/pi;
+fprintf('The launch azimuth angle should be %.4f degrees\n',Azimuth);
+
+% b) 
+% An orbit with a 30 degree inclination cannot be acheived because that
+% angle is less than the lattitude of Minneapolis
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
